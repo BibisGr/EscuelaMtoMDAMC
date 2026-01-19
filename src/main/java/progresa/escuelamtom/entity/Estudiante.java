@@ -33,5 +33,5 @@ public class Estudiante {
         joinColumns = @JoinColumn(name = "estudiante_id"),
         inverseJoinColumns = @JoinColumn(name = "asignatura_id")
     )
-    private Set<Asignaturas> asignaturas = new HashSet<>();
+    private Set<Asignatura> asignaturas = new HashSet<>();
 }
