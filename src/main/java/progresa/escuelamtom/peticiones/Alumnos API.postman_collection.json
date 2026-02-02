@@ -1,0 +1,134 @@
+{
+  "info": {
+    "_postman_id": "caff370c-d931-4ff9-85a6-9fbec594bead",
+    "name": "Alumnos API",
+    "description": "Colección de endpoints para gestionar alumnos en EscuelaDAMB",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48646690"
+  },
+  "item": [
+    {
+      "name": "Listar todos los alumnos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/alumnos/lista",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "alumnos",
+            "lista"
+          ]
+        },
+        "description": "Obtiene la lista completa de todos los alumnos registrados"
+      },
+      "response": []
+    },
+    {
+      "name": "Buscar alumno por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/alumnos/buscarById/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "alumnos",
+            "buscarById",
+            "1"
+          ]
+        },
+        "description": "Busca un alumno específico por su ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Crear alumno",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombre\": \"María\",\n    \"apellidos\": \"González López\",\n    \"fechaNaciemiento\": \"1999-08-20\",\n    \"dni\": \"87654321B\",\n    \"email\": \"maria.gonzalez@email.com\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/alumnos/crear",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "alumnos",
+            "crear"
+          ]
+        },
+        "description": "Crea un nuevo alumno en el sistema"
+      },
+      "response": []
+    },
+    {
+      "name": "Eliminar alumno",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/alumnos/delete/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "alumnos",
+            "delete",
+            "1"
+          ]
+        },
+        "description": "Elimina un alumno por su ID"
+      },
+      "response": []
+    },
+    {
+      "name": "Agregar cursos a alumno",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "[1, 2, 3]"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/alumnos/1/agregar-cursos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "alumnos",
+            "1",
+            "agregar-cursos"
+          ]
+        },
+        "description": "Agrega una lista de cursos a un alumno específico mediante sus IDs"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
