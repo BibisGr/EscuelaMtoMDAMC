@@ -1,11 +1,13 @@
 package progresa.escuelamtom.controller;
 
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import progresa.escuelamtom.dto.AsignaturaDTO;
 import progresa.escuelamtom.dto.Mensaje;
 import progresa.escuelamtom.entity.Asignatura;
 import progresa.escuelamtom.service.AsignaturaService;
@@ -51,6 +53,31 @@ public class AsignaturaController {
         return new ResponseEntity(new Mensaje("Asignatura eliminada correctamente"),HttpStatus.OK);
     }
     //  crear una asignatura
+    @PostMapping("/crear")
+    public ResponseEntity<?> crear(
+            @RequestBody AsignaturaDTO asignaturaDTO
+            ){
+        //validaciones
+        // el titulo no puede estar vacio
+        if(StringUtils.isBlank(asignaturaDTO.getTitulo())){
+            return new ResponseEntity(new Mensaje("El titulo es obligatorio"),
+                    HttpStatus.BAD_REQUEST);
+        }
+        // el titulo no puede existir
+        if(asignaturaService.existsByTitulo(asignaturaDTO.getTitulo())){
+            return new ResponseEntity(new Mensaje("La asignatura con el nombre: "+ asignaturaDTO.getTitulo() + " ya existe"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        Asignatura asignatura = new Asignatura();
+        asignatura.setTitulo(asignaturaDTO.getTitulo());
+        asignatura.setCreditos(asignaturaDTO.getCreditos());
+
+        asignaturaService.save(asignatura);
+        return new ResponseEntity(new Mensaje("Asignatura creada correctamente"),
+                HttpStatus.CREATED);
+    }
     //  actualizar una asignatura
+    // pasariamos el id por la url y el resto de datos por el body
 
 }

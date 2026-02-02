@@ -47,4 +47,7 @@ public class AsignaturaService {
         asignaturaRepository.save(asignatura);
     }
 
+    public List<Asignatura> findAllByIds(List<Long> ids) {
+        return asignaturaRepository.findAllById(ids);
+    }
 }

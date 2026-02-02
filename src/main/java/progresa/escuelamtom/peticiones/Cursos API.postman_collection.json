@@ -1,0 +1,388 @@
+{
+  "info": {
+    "_postman_id": "5d2b0588-61f8-4cbc-8314-a20a767dcbad",
+    "name": "Cursos API",
+    "description": "Colección de endpoints para gestionar cursos en EscuelaDAMB",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48646690"
+  },
+  "item": [
+    {
+      "name": "Listar todos los cursos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/cursos/lista",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "cursos",
+            "lista"
+          ]
+        },
+        "description": "Obtiene la lista completa de todos los cursos disponibles"
+      },
+      "response": [
+        {
+          "name": "Lista de cursos",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/cursos/lista",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "lista"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n    {\n        \"id\": 1,\n        \"nombre\": \"Programación Java\",\n        \"creditos\": 6\n    },\n    {\n        \"id\": 2,\n        \"nombre\": \"Bases de Datos\",\n        \"creditos\": 5\n    },\n    {\n        \"id\": 3,\n        \"nombre\": \"Desarrollo Web\",\n        \"creditos\": 6\n    }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Buscar curso por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/cursos/buscarById/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "cursos",
+            "buscarById",
+            "1"
+          ]
+        },
+        "description": "Busca un curso específico por su ID"
+      },
+      "response": [
+        {
+          "name": "Curso encontrado",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/cursos/buscarById/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "buscarById",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 1,\n    \"nombre\": \"Programación Java\",\n    \"creditos\": 6\n}"
+        },
+        {
+          "name": "Curso no encontrado",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/cursos/buscarById/999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "buscarById",
+                "999"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"mensaje\": \"No existe un estudiante con ese id\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Crear curso",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"nombre\": \"Programación Java\",\n    \"creditos\": 6\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/cursos/crear",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "cursos",
+            "crear"
+          ]
+        },
+        "description": "Crea un nuevo curso en el sistema"
+      },
+      "response": [
+        {
+          "name": "Curso creado exitosamente",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Programación Java\",\n    \"creditos\": 6\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/cursos/crear",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "crear"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"mensaje\": \"Curso creado correctamente\"\n}"
+        },
+        {
+          "name": "Nombre obligatorio",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"\",\n    \"creditos\": 6\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/cursos/crear",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "crear"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"mensaje\": \"El nombre es obligatorio\"\n}"
+        },
+        {
+          "name": "Curso ya existe",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nombre\": \"Programación Java\",\n    \"creditos\": 6\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/cursos/crear",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "crear"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"mensaje\": \"Ese curso ya existe\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Eliminar curso",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/cursos/delete/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "cursos",
+            "delete",
+            "1"
+          ]
+        },
+        "description": "Elimina un curso por su ID"
+      },
+      "response": [
+        {
+          "name": "Curso eliminado",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/cursos/delete/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "delete",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"mensaje\": \"Estudiante Eliminado Correctamente\"\n}"
+        },
+        {
+          "name": "Curso no existe",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/cursos/delete/999",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "cursos",
+                "delete",
+                "999"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"mensaje\": \"No existe un estudiante con ese id\"\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
