@@ -3,6 +3,7 @@ package progresa.escuelamtom.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import progresa.escuelamtom.dao.AsignaturaRepository;
 import progresa.escuelamtom.dao.EstudianteRepository;
 import progresa.escuelamtom.entity.Asignatura;
 import progresa.escuelamtom.entity.Estudiante;
@@ -15,6 +16,8 @@ import java.util.Optional;
 public class EstudiantesService {
     @Autowired
     private EstudianteRepository estudianteRepository;
+    @Autowired
+    private AsignaturaRepository asignaturaRepository;
 
     //funciones crud
     //mostrar todos los estudiantes
@@ -37,6 +40,10 @@ public class EstudiantesService {
     //crear estudiante y actualizar estudiante
     public void save(Estudiante estudiante) {
         estudianteRepository.save(estudiante);
+    }
+
+    public List<Asignatura> findAllById(List<Long> ids){
+        return asignaturaRepository.findAllById(ids);
     }
 
 }

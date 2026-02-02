@@ -24,47 +24,50 @@ public class EstudianteController {
     @Autowired
     private AsignaturaService asignaturaService;
 
-
-    //    funciones Crud
-    //  mostrar todas los estudiantes
+    //funciones CRUD para cursos
+    //listar
     @GetMapping("/lista")
-    public ResponseEntity<List<Estudiante>> List(){
+    public ResponseEntity<List<Estudiante>> listarAlumno() {
         List<Estudiante> list = estudiantesService.getAllEstudiantes();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity(list,
+                HttpStatus.OK);
     }
-    //  mostrar un estudiante por id
-    @GetMapping("/buscarById/{id}")
-    public  ResponseEntity<?> buscarById(
-            @PathVariable Long id
+
+    //mostrar por id
+    @GetMapping("/buscarPorId/{idAlumno}")
+    public ResponseEntity<?> buscarById(
+            @PathVariable Long idAlumno
     ) {
-        if(!estudiantesService.existsById(id)){
-            return new ResponseEntity(new
-                    Mensaje("El estudiante con el id: "+ id +" no existe"),
+        if (!estudiantesService.existsById(idAlumno)) {
+            return new ResponseEntity(new Mensaje("No existe el alumno con el iD:" + idAlumno),
                     HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(estudiantesService.findById(id));
+        return ResponseEntity.ok(estudiantesService.findById(idAlumno));
     }
-    //  eliminar un estudiante
-    @DeleteMapping("/detele/{id}")
-    public  ResponseEntity<?> deleteById(
-            @PathVariable Long id
+
+    //eliminar
+    @DeleteMapping("/delete/{idAlumno}")
+    public ResponseEntity<?> borrarById(
+            @PathVariable Long idAlumno
     ) {
-        if(!estudiantesService.existsById(id)){
-            return new ResponseEntity(new
-                    Mensaje("El estudiante con el id: "+ id +" no existe"),
+        if (!estudiantesService.existsById(idAlumno)) {
+            return new ResponseEntity(
+                    new Mensaje("No existe el curso con el iD:" + idAlumno),
                     HttpStatus.BAD_REQUEST);
         }
-        estudiantesService.deleteById(id);
-        return new ResponseEntity(new Mensaje("Asignatura eliminada correctamente"),HttpStatus.OK);
+        estudiantesService.deleteById(idAlumno);
+        return new ResponseEntity(
+                new Mensaje("Curso eliminado correctamente"),
+                HttpStatus.OK);
     }
-    //  crear una asignatura
-    //crear una peticion para crear estudiante
+
+    //crear
     @PostMapping("/crear")
-    public  ResponseEntity<?> crear(
+    public ResponseEntity<?> crear(
             @RequestBody EstudianteDTO estudianteDTO
-            ){
-        if(StringUtils.isBlank(estudianteDTO.getNombre())){
-            return new ResponseEntity(new Mensaje("El nombre del estudiante es obligatorio"),
+    ) {
+        if (StringUtils.isBlank((estudianteDTO.getNombre()))) {
+            return new ResponseEntity(new Mensaje("El nombre del alumno es obligatorio"),
                     HttpStatus.BAD_REQUEST);
         }
         Estudiante estudiante = new Estudiante();
@@ -72,47 +75,57 @@ public class EstudianteController {
         List<Asignatura> asignaturas = new ArrayList<>();
 
         estudiantesService.save(estudiante);
-        return new ResponseEntity(new Mensaje("Estudiante creado correctamente"),
+        return new ResponseEntity(
+                new Mensaje("Alumno creado correctamente"),
                 HttpStatus.CREATED);
     }
-    //crear una peticion para asignar asignaturas a un estudiante
-    @PostMapping("/asignarAsignatusAEstudiante/{idEstudiante}")
-    public ResponseEntity<?> agregarAsignaturasAEstudiantes(
-            @PathVariable Long idEstudiante,
+
+    //funcion para asignar cursos a un alumno
+
+    @PostMapping("/{idAlumno}/asignarCursos")
+    public ResponseEntity<?> agregarCursosAAlumno(
+            @PathVariable Long idAlumno,
             @RequestBody List<Long> asignaturasIds
     ){
-        //validaciones
-        //verificar si el estudiante existe
-        if (!estudiantesService.existsById(idEstudiante)){
-            return new ResponseEntity(new Mensaje("El estudiante con el id: "+ idEstudiante +" no existe"),
+        //validar que el alumno existe
+        if(!estudiantesService.existsById(idAlumno)){
+            return new ResponseEntity(
+                    new Mensaje("No existe el alumno con el iD:" + idAlumno),
                     HttpStatus.BAD_REQUEST);
         }
-        //validar que se proporcionaron los ids de las asignaturas
-        if(asignaturasIds == null || asignaturasIds.isEmpty()){
-            return new ResponseEntity(new Mensaje("Debe proporcionar al menos un id de asignatura"),
+        // validar que lo cursos proporcionados(length) concida con los cursos existentes
+        if (asignaturasIds == null || asignaturasIds.isEmpty()){
+            return new ResponseEntity(
+                    new Mensaje("Debe proporcionar al menos un curso"),
                     HttpStatus.BAD_REQUEST);
         }
-        //obtener el estudiante
+        //obtener el alumno
         Optional<Estudiante> estudianteOpt =
-                estudiantesService.findById(idEstudiante);
-        if(estudianteOpt.isEmpty()){
-            return new ResponseEntity(new Mensaje("No es posible encontrar el estudiante"),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        //obtener la lista de asignaturas
-        List<Asignatura> asignaturas = asignaturaService.findAllByIds(asignaturasIds);
-
-        //validar que se encontraron asignaturas
-        if(asignaturas.isEmpty() || asignaturas.size() != asignaturasIds.size()){
-            return new ResponseEntity(new Mensaje("Algunas asignaturas no fueron encontradas"),
+                estudiantesService.findById(idAlumno);
+        if (estudianteOpt.isEmpty()){
+            return new ResponseEntity(
+                    new Mensaje("No se pudo encontrar el alumno con el iD:" + idAlumno),
                     HttpStatus.BAD_REQUEST);
         }
-        //asignar las asignaturas al estudiante
-        Estudiante estudiante = new Estudiante();
-        estudiante.getAsignaturas().addAll(asignaturas);
+        //buscar los cursos por sus IDs para com[parar con el de alumnoOpt
+        List<Asignatura> cursos = asignaturaService.findAllById(asignaturasIds);
+
+        if(cursos.isEmpty() || cursos.size() != asignaturasIds.size())
+        {
+            return new ResponseEntity(
+                    new Mensaje("Algunos de los cursos proporcionados no existen"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        //asignar los cursos al alumno
+        Estudiante estudiante = estudianteOpt.get();
+        estudiante.getAsignaturas().addAll(cursos);
         estudiantesService.save(estudiante);
-        return new ResponseEntity(new Mensaje("Asignaturas asignadas correctamente al estudiante"),
+        return new ResponseEntity(new Mensaje("Cursos agregados al alumno correctamente"),
                 HttpStatus.OK);
     }
-    //  actualizar una asignatura
+
+    //actualizar
+    // que no se puedan agrega el mismo curso varia veces al mismo alumno
+
 }
