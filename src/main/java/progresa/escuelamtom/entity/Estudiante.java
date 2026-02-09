@@ -24,8 +24,8 @@ public class Estudiante {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "dni")
-    private String dni;
+//    @Column(name = "dni")
+//    private String dni;
 
     @ManyToMany
     @JoinTable(

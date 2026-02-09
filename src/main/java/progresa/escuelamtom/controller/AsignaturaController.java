@@ -29,7 +29,7 @@ public class AsignaturaController {
                 HttpStatus.OK);
     }
     //mostrar por id
-    @GetMapping("/buscarPorId/{idCurso}")
+    @GetMapping("/buscarPorId/{idAsignatura}")
     public ResponseEntity<?> buscarById(
             @PathVariable Long idAsignatura
     ){
@@ -40,7 +40,7 @@ public class AsignaturaController {
         return ResponseEntity.ok(asignaturaService.findById(idAsignatura));
     }
     //eliminar
-    @DeleteMapping("/delete/{idCurso}")
+    @DeleteMapping("/delete/{idAsignatura}")
     public ResponseEntity<?> borrarById(
             @PathVariable Long idAsignatura
     ){
